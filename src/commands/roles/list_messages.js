@@ -26,6 +26,9 @@ module.exports = class ListRoleMessages extends Commando.Command{
     if(reaction.message.author.id != this.client.user.id)
       return;
 
+    if(user.id == this.client.user.id)
+      return;
+
     let role_msg = reaction.message.guild.settings.get("role_msg", {});
     for(let msg_key in role_msg)
     {
