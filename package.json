@@ -1,0 +1,29 @@
+{
+  "name": "nolifebot",
+  "version": "1.0.0",
+  "description": "Bot for ##Nolife discord",
+  "main": "src/index.js",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "discord.js-commando": "^0.12.3",
+    "is-standard-emoji": "^1.0.0",
+    "sqlite": "^4.0.23",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/index.js",
+    "build": "docker build . -t nolifebot-container",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xele02/NolifeBot.git"
+  },
+  "author": "Xele",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xele02/NolifeBot/issues"
+  },
+  "homepage": "https://github.com/Xele02/NolifeBot#readme"
+}
