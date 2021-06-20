@@ -10,6 +10,7 @@ module.exports = class PostRoleMessage extends Commando.Command{
 			description: 'Post the message on a channel',
 			examples: ['role_post_message test my_channel'],
 			guildOnly: true,
+      userPermissions: ['ADMINISTRATOR'],
 
 			args: [
 				{

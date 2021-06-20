@@ -10,6 +10,7 @@ module.exports = class ListRoleMessages extends Commando.Command{
 			description: 'List all messages configured.',
 			examples: ['role_list_messages'],
 			guildOnly: true,
+      userPermissions: ['ADMINISTRATOR'],
 
 			args: []
 		});

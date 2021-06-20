@@ -10,6 +10,7 @@ module.exports = class RegisterRoleMessage extends Commando.Command{
 			description: 'Register a message for user to add role.',
 			examples: ['role_add_message test "React to this for the role"'],
 			guildOnly: true,
+      userPermissions: ['ADMINISTRATOR'],
 
 			args: [
 				{

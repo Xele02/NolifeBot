@@ -11,6 +11,7 @@ module.exports = class DelReactRoleMessage extends Commando.Command{
 			description: 'Remove a react from a message.',
 			examples: ['role_delete_react msg_id react'],
 			guildOnly: true,
+      userPermissions: ['ADMINISTRATOR'],
 
 			args: [
 				{

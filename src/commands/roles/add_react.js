@@ -11,6 +11,7 @@ module.exports = class AddReactRoleMessage extends Commando.Command{
 			description: 'Add a react to listen to on a message to give/remove a role.',
 			examples: ['role_add_react test :thumbsup: role false'],
 			guildOnly: true,
+      userPermissions: ['ADMINISTRATOR'],
 
 			args: [
 				{

@@ -10,6 +10,7 @@ module.exports = class DeleteRoleMessage extends Commando.Command{
 			description: 'Delete a message for user to add role.',
 			examples: ['role_delete_message test true'],
 			guildOnly: true,
+      userPermissions: ['ADMINISTRATOR'],
 
 			args: [
 				{

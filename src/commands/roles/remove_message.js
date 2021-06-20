@@ -10,6 +10,7 @@ module.exports = class RemovePostedRoleMessage extends Commando.Command{
 			description: 'Remove a message posted on a channel',
 			examples: ['role_remove_message test my_channel'],
 			guildOnly: true,
+      userPermissions: ['ADMINISTRATOR'],
 
 			args: [
 				{
