@@ -277,9 +277,11 @@ module.exports = class TwitchSetChannelMessage extends Commando.Command{
 							if(twitch_account_by_user[user_id]["manual"] == twitch_id)
 							{
 								console.log("replace_or_add_channel_listen user already has manual");
-								return true;
 							}
-							await client.twitch_api.remove_channel_listen(guild_id, user_id, is_manual_set);
+							else
+							{
+								await client.twitch_api.remove_channel_listen(guild_id, user_id, is_manual_set);
+							}
 						}
 					}
 					else {
@@ -288,9 +290,11 @@ module.exports = class TwitchSetChannelMessage extends Commando.Command{
 							if(twitch_account_by_user[user_id]["auto"] == twitch_id)
 							{
 								console.log("replace_or_add_channel_listen user already has auto");
-								return true;
 							}
-							await client.twitch_api.remove_channel_listen(guild_id, user_id, is_manual_set);
+							else
+							{
+								await client.twitch_api.remove_channel_listen(guild_id, user_id, is_manual_set);
+							}
 						}
 					}
 				}
