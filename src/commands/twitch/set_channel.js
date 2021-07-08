@@ -456,8 +456,16 @@ module.exports = class TwitchSetChannelMessage extends Commando.Command{
 				      return "Invalid twitch account";
 				    const userId = user.id;
 
+						let isNew = false;
+						const twitch_account_by_account = client.settings.get("twitch_account_by_account", {});
+						if(twitch_account_by_account[userId] === undefined)
+						{
+							isNew = true;
+						}
+
 						await newPresence.client.twitch_api.replace_or_add_channel_listen (newPresence.member.guild.id, newPresence.member.user.id, userId, false)
-						await newPresence.client.twitch_api.post(userId);
+						if(isNew)
+							await newPresence.client.twitch_api.post(userId);
 						return;
 					}
 				}
