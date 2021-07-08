@@ -7,12 +7,46 @@ const sqlite = require('sqlite');
 const sqlite3 = require('sqlite3');
 const oneLine = require('common-tags').oneLine;
 
+const myIntents = new Discord.Intents();
+myIntents.add(Discord.Intents.NON_PRIVILEGED);
+myIntents.add(Discord.Intents.PRIVILEGED);
+
 const client = new Commando.Client({
     owner: config.allowed_control_users,
-    partials: ['MESSAGE', 'CHANNEL', 'REACTION']
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION','GUILD_MEMBER', 'USER'],
+    ws: { intents: myIntents }
 });
 
 client.handler = new Discord.Collection();
+
+if(config.enable_webhook)
+{
+  const express = require("express")
+  const bodyParser = require("body-parser")
+
+  const WebhookListener = express();
+  const PORT = config.hook_port;
+
+  WebhookListener.use(bodyParser.json({
+    verify: (req, res, buf) => {
+        // Small modification to the JSON bodyParser to expose the raw body in the request object
+        // The raw body is required at signature verification
+        req.rawBody = buf
+    }
+  }));
+  WebhookListener.listen(PORT, () => console.log(`🚀 Webhook Server running on port ${PORT}`));
+
+  client.webhookListener = WebhookListener;
+}
+if(config.enable_twitch)
+{
+  const TwitchApi = require("node-twitch").default;
+  const twitch = new TwitchApi({
+  	client_id: config.twitch_client_id,
+  	client_secret: config.twitch_client_secret
+  });
+  client.twitch_api = twitch;
+}
 
 client
   .on("error", console.error)
@@ -77,6 +111,50 @@ client
       }
     }
   })
+  .on('guildMemberUpdate', async (oldMember, newMember) => {
+    if (oldMember.partial) {
+  		try {
+  			await oldMember.fetch();
+  		} catch (error) {
+  			console.error('Something went wrong when fetching the oldMember: ', error);
+  			return;
+  		}
+  	}
+    if (newMember.partial) {
+  		try {
+  			await newMember.fetch();
+  		} catch (error) {
+  			console.error('Something went wrong when fetching the newMember: ', error);
+  			return;
+  		}
+  	}
+    for(let [key, value] of client.handler)
+    {
+      try {
+
+        if(value.onGuildMemberUpdate !== undefined)
+        {
+          await value.onGuildMemberUpdate(oldMember, newMember);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  })
+  .on("presenceUpdate",  async (oldPresence, newPresence) => {
+    for(let [key, value] of client.handler)
+    {
+      try {
+
+        if(value.onPresenceUpdate !== undefined)
+        {
+          await value.onPresenceUpdate(oldPresence, newPresence);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  })
   ;
 
 client.setProvider(
@@ -90,5 +168,6 @@ client.registry
 	.registerDefaults()
 	.registerTypesIn(path.join(__dirname, 'types'))
 	.registerCommandsIn(path.join(__dirname, 'commands'));
+
 
 client.login(config.token);
