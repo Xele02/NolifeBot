@@ -457,7 +457,7 @@ module.exports = class TwitchSetChannelMessage extends Commando.Command{
 				    const userId = user.id;
 
 						let isNew = false;
-						const twitch_account_by_account = client.settings.get("twitch_account_by_account", {});
+						const twitch_account_by_account = newPresence.client.settings.get("twitch_account_by_account", {});
 						if(twitch_account_by_account[userId] === undefined)
 						{
 							isNew = true;
